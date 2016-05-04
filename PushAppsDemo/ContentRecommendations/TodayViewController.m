@@ -96,10 +96,12 @@
     
     UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:990];
     imageView.image = nil;
-    NSURL *url = [NSURL URLWithString:[dictionary objectForKey:@"thumb_url"]];
-    dispatch_queue_t downloadQueue = dispatch_queue_create("com.myapp.imagequeue", NULL);
+    NSString *urlString = [dictionary objectForKey:@"thumb_url"];
+    NSURL *url = [NSURL URLWithString:urlString];
+    dispatch_queue_t downloadQueue = dispatch_queue_create("mobi.pushapps.demo.PushAppsDemo.images", NULL);
     dispatch_async(downloadQueue, ^{
-        NSData *imageData = [NSData dataWithContentsOfURL:url];
+        NSError *urlError = nil;
+        NSData *imageData = [NSData dataWithContentsOfURL:url options:0 error:&urlError];
         dispatch_async(dispatch_get_main_queue(), ^{
             imageView.image = [UIImage imageWithData:imageData];
         });
