@@ -114,9 +114,14 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary *dictionary = [self.currentRecommendations objectAtIndex:indexPath.row];
+    NSString *urlString = [dictionary objectForKey:@"url"];
+    NSURL *url = [NSURL URLWithString:urlString];
+    [self.extensionContext openURL:url completionHandler:nil];
 }
 
 @end
